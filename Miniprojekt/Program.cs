@@ -51,58 +51,48 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseCors(AllowSomeStuff);
 
-// Middlware der kører før hver request. Sætter ContentType for alle responses til "JSON".
-app.Use(async (context, next) =>
-{
-    context.Response.ContentType = "application/json; charset=utf-8";
-    await next(context);
-});
 
-
-
-//Henter alle posts
-app.MapGet("/api/posts", (DataService service) =>
-{
-    return service.GetPosts().Select(p => new { 
-        PostId = p.PostId, 
-        title = p.Title, 
-        content = p.Content,
-        author = p.Author,
-        date = p.Date,
-        upvotes = p.Upvotes,
-        downvotes = p.Downvotes
-    });
-      
-});
+//APi endpoints
 
 ///Post sektion
 
-//Henter en post ud fra id 
-app.MapGet("/api/posts/{id}", (DataService service, int id) => {
-    return service.GetPost(id);
+//Henter alle posts (virker)
+app.MapGet("/api/posts/", (DataService service) =>
+{
+    return service.GetPosts();
 });
 
-//Poster en ny post
-app.MapPost("/api/posts", (DataService service, NewPostData data) =>
+//Henter en post ud fra id (virker)
+app.MapGet("/api/posts/{id}", (DataService service, int id) => {
+    return service .GetPostById(id);
+});
+
+//Poster en ny post (virker)
+app.MapPost("/api/post/", (DataService service, string title, string content, string author) =>
 {
-    string result = service.CreatePost(data.PostId, data.Title, data.Content, data.Author, data.Date, data.Upvotes, data.Downvotes);
-    return new { message = result };
+    service.CreatePost(title, content, author);
+
 });
 
 
 ///Comment sektion
 
-//Henter comments ud fra id
-app.MapGet("/api/comments/{id}", (DataService service, int id) => 
+app.MapGet("/api/comments/", (DataService service) =>
 {
-    return service.GetComment(id);
+    return service.GetComments();
 });
 
-//Poster ny comment
-app.MapPost("/api/comment", (DataService service, NewCommentData data) =>
+//Henter comments ud fra id (virker)
+app.MapGet("/api/comments/{id}", (DataService service, int id) => 
+{
+    return service.GetCommentById(id);
+});
+
+//Poster ny comment (virker)
+app.MapPost("/api/comment/", (DataService service, string content, string author, int postId) =>
 {   
-    string result = service.CreateComment(data.CommentId, data.Content, data.Date, data.Author, data.PostId);
-    return new { message = result };
+    service.CreateComment(content, author, postId);
+
 });
 
 
@@ -113,7 +103,7 @@ app.Run();
 
 
 record NewPostData(int PostId, string Title, string Content, string Author, DateTime Date, int Upvotes, int Downvotes);
-record NewCommentData(int CommentId, string Content, DateTime Date, string Author, int PostId);
+record NewCommentData(string Content, DateTime Date, string Author, int PostId);
 
 
 

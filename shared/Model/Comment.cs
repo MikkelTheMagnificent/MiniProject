@@ -12,11 +12,11 @@ namespace shared.Model
         public int ?Upvotes { get; set; }
         public int ?Downvotes { get; set; }
 
-        public Comment(string Author = "", string content = "", int upvotes = 0, int downvotes = 0) {
+        public Comment(string author = "", string content = "", int upvotes = 0, int downvotes = 0) {
         Content = content;
         Upvotes = upvotes;
         Downvotes = downvotes;
-        Author = Author;
+        Author = author;
     }
          public Comment() {
         CommentId = 0;

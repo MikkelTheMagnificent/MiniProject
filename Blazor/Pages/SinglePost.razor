@@ -1,0 +1,58 @@
+<!-- 
+    Notice how this route has a route parameter 'id'. This is how we can pass data to the route.
+    See how the links are made in 'PostList.razor'.
+-->
+@page "/{id:int}"
+
+@using Blazor.Data;
+@inject ApiService postService
+
+@using shared.Model;
+
+
+
+@if (posts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+        <div class="card w-75">
+            <div class="card-body">
+                <h5 class="card-title">@posts.Title</h5>
+                <p class="card-text">@posts.Content</p>
+                <p class="card-text">@posts.Author</p>
+                <a href=@string.Format("/Post/{0}/CreateComment", posts.PostId) class="btn btn-primary">Create Comment</a>
+            </div>
+        </div>
+
+        <div class="card w-75">
+            <div class="card-body">
+                <h5 class="card-title">Comments</h5>
+                @foreach (var comment in posts.Comments)
+                {
+                    <div class="card-body">
+                        <p class="card-text">@comment.Content</p>
+                        <p class="card-text">@comment.Author</p>
+                        <a href="#" class="btn btn-primary">See comment</a>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+
+
+    }
+
+    @code {
+        [Parameter]
+        public int id { get; set; }
+
+private Post posts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = await postService.GetPostById(id);
+    }
+    }

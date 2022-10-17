@@ -1,18 +1,45 @@
 ﻿@page "/"
 
-<PageTitle>Readdit</PageTitle>
+@using Blazor.Data;
+@inject ApiService postService
 
-<h1>Welcome to Readdit</h1>
+@using shared.Model;
 
-<p>Below you can read the most recent posts.</p>
 
-<PostList></PostList>
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
-<h3>Notes about this app:</h3>
-<ul>
-    <li>You need to reload browser to reload data.</li>
-    <li>Dates are not implemented.</li>
-    <li>Only upvote on posts work. No other voting works yet.</li>
-    <li>Cannot create new posts, only new comments.</li>
-    <li>No user selection. User is hardcoded (Mads).</li>
-</ul>
+
+@if (posts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <a href="/CreatePost" class="btn btn-primary">Create Post</a>
+    @foreach (var post in posts)
+    {
+
+        <div class="card">
+            <div class="card-header">
+                <p class="card-text">-- @post.Author </p>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@post.Title</h5>
+                <p class="card-text">@post.Content</p>
+
+                <a href=@string.Format("{0}",post.PostId) class="btn btn-primary">See Post</a>
+            </div>
+        </div>
+    }
+}
+@code {
+
+    private Post[] posts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = await postService.GetPostData();
+    }
+}

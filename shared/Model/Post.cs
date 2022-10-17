@@ -12,14 +12,16 @@ namespace shared.Model
         public int ?Upvotes { get; set; }
         public int ?Downvotes { get; set; }
 
-         public Post(string Author = "", string title = "", string content = "", int upvotes = 0, int downvotes = 0) {
+        public Post(string author = "", string title = "", string content = "", int upvotes = 0, int downvotes = 0) {
         Title = title;
         Content = content;
         Upvotes = upvotes;
         Downvotes = downvotes;
-        Author = Author;
+        Author = author;
 
     }
+
+
          public Post() {
         PostId = 0;
         Title = "";

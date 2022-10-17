@@ -41,36 +41,43 @@ public class DataService
 
 
      public List<Post> GetPosts() {
-        return db.posts.ToList();
+        return db.posts
+            .Include(c => c.Comments)
+            .ToList();
     }
 
-    public Post GetPost(int id) {
-        return db.posts.Include(p => p.PostId).FirstOrDefault(p => p.PostId == id);
+    public Post GetPostById(int id) {
+        var post = db.posts
+        .Where(p => p.PostId == id)
+        .Include(c => c.Comments)
+        .FirstOrDefault();
+        return post;
     }
 
     public List<Comment> GetComments() {
         return db.Comments.ToList();
     }
 
-    public Comment GetComment(int id) {
-        return db.Comments.Include(c => c.CommentId).FirstOrDefault(c => c.CommentId == id);
+    public Comment GetCommentById(int id) {
+        var comment = db.Comments
+        .Where(c => c.CommentId == id)
+        .FirstOrDefault();
+        return comment;
     }
 
     ///Create post og comment
 
-    public string CreatePost(int postId, string title, string content, string author, DateTime date, int upvotes, int downvotes) {
-        Post Post = db.posts.FirstOrDefault(p => p.PostId == postId);
-        db.posts.Add(new Post { PostId = postId, Title = title, Content = content, Author = author, Date = date, Upvotes = upvotes, Downvotes = downvotes });
+  
+    public void CreatePost(string title, string content, string author) {
+        db.posts.Add(new Post { Content = content, Date = DateTime.Now, Author = author, Title = title, Upvotes = 0, Downvotes = 0 });
         db.SaveChanges();
-        return "Post created";
     }
 
-    public string CreateComment(int commentId, string content, DateTime date, string author, int postId) {
-        var Comment = db.Comments.FirstOrDefault(c => c.CommentId == commentId);
-        db.Comments.Add(new Comment { CommentId = commentId, Content = content, Date = date, Author = author, PostId = postId });
+    public void CreateComment(string content, string author, int postId) {
+        db.Comments.Add(new Comment { Content = content, Date = DateTime.Now, Author = author, Upvotes = 0, Downvotes = 0, PostId = postId });
         db.SaveChanges();
-        return "Comment created";
     }
+
 
     /// Upvote og downvote på post og comments
 
@@ -98,6 +105,8 @@ public class DataService
         db.SaveChanges();
     }
     
+   
+
 }
 
 
