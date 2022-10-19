@@ -31,9 +31,9 @@ public class DataService
         Comment comment = db.Comments.FirstOrDefault()!;
         if (comment == null)
         { Post p1 = db.posts.FirstOrDefault()!;
-            db.Comments.Add(new Comment { Content = "That is asually truf", Date = DateTime.Now, Author = "Ole", PostId = post.PostId});
-            db.Comments.Add(new Comment { Content = "I luv mages", Date = DateTime.Now, Author = "Kenneth", PostId = post.PostId });
-            db.Comments.Add(new Comment { Content = "I luv mages too!", Date = DateTime.Now, Author = "Svend", PostId = post.PostId});
+            db.Comments.Add(new Comment { Content = "That is asually truf", Date = DateTime.Now, Author = "Ole", PostId = post.PostId, Upvotes = 0, Downvotes = 0 });
+            db.Comments.Add(new Comment { Content = "I luv mages", Date = DateTime.Now, Author = "Kenneth", PostId = post.PostId, Upvotes = 0, Downvotes = 0 });
+            db.Comments.Add(new Comment { Content = "I luv mages too!", Date = DateTime.Now, Author = "Svend", PostId = post.PostId, Upvotes = 0, Downvotes = 0 });
         db.SaveChanges();
         }
         
@@ -58,23 +58,21 @@ public class DataService
         return db.Comments.ToList();
     }
 
-    public Comment GetCommentById(int id) {
-        var comment = db.Comments
-        .Where(c => c.CommentId == id)
-        .FirstOrDefault();
-        return comment;
-    }
+      public List<Comment> GetCommentById (int id){
+            return db.Comments.Where(p => p.PostId == id).ToList();
+        }  
 
     ///Create post og comment
 
-  
-    public void CreatePost(string title, string content, string author) {
-        db.posts.Add(new Post { Content = content, Date = DateTime.Now, Author = author, Title = title, Upvotes = 0, Downvotes = 0 });
-        db.SaveChanges();
-    }
+  public void CreatePost(Post post){
+            db.posts.Add(new Post{Title = post.Title, Content = post.Content, Author = post.Author, Date = DateTime.Now, Upvotes = 0, Downvotes = 0,});
+            db.SaveChanges();
+           
+        }
 
-    public void CreateComment(string content, string author, int postId) {
-        db.Comments.Add(new Comment { Content = content, Date = DateTime.Now, Author = author, Upvotes = 0, Downvotes = 0, PostId = postId });
+
+    public void CreateComment(Comment comment) {
+        db.Comments.Add(new Comment { Content = comment.Content, Date = DateTime.Now, Author = comment.Author, Upvotes = 0, Downvotes = 0, PostId = comment.PostId });
         db.SaveChanges();
     }
 
@@ -82,25 +80,25 @@ public class DataService
     /// Upvote og downvote på post og comments
 
     public void UpvotePost(int id) {
-        Post post = db.posts.FirstOrDefault(p => p.PostId == id);
+        var post = db.posts.FirstOrDefault(p => p.PostId == id);
         post.Upvotes++;
         db.SaveChanges();
     }
 
     public void DownvotePost(int id) {
-        Post post = db.posts.FirstOrDefault(p => p.PostId == id);
+        var post = db.posts.FirstOrDefault(p => p.PostId == id);
         post.Downvotes++;
         db.SaveChanges();
     }
 
     public void UpvoteComment(int id) {
-        Comment comment = db.Comments.FirstOrDefault(c => c.CommentId == id);
+        var comment = db.Comments.FirstOrDefault(c => c.CommentId == id);
         comment.Upvotes++;
         db.SaveChanges();
     }
 
     public void DownvoteComment(int id) {
-        Comment comment = db.Comments.FirstOrDefault(c => c.CommentId == id);
+        var comment = db.Comments.FirstOrDefault(c => c.CommentId == id);
         comment.Downvotes++;
         db.SaveChanges();
     }

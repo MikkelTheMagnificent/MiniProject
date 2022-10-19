@@ -2,16 +2,16 @@
     Notice how this route has a route parameter 'id'. This is how we can pass data to the route.
     See how the links are made in 'PostList.razor'.
 -->
-@page "/{id:int}"
+@page "/api/posts/{id}"
 
 @using Blazor.Data;
+@using shared.Model;
 @inject ApiService postService
 
-@using shared.Model;
 
+<PageTitle>Post</PageTitle>
 
-
-@if (posts == null)
+@if (Post == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -19,22 +19,29 @@ else
 {
         <div class="card w-75">
             <div class="card-body">
-                <h5 class="card-title">@posts.Title</h5>
-                <p class="card-text">@posts.Content</p>
-                <p class="card-text">@posts.Author</p>
-                <a href=@string.Format("/Post/{0}/CreateComment", posts.PostId) class="btn btn-primary">Create Comment</a>
+                <h5 class="card-title">@Post.Title</h5>
+                <p>Posted on: @Post.Date</p>
+                <p class="card-text">Content: @Post.Content</p>
+                <p class="card-text">Upvotes: @Post.Upvotes   Downvotes: @Post.Downvotes</p> 
+               
             </div>
         </div>
 
         <div class="card w-75">
             <div class="card-body">
                 <h5 class="card-title">Comments</h5>
-                @foreach (var comment in posts.Comments)
+                @foreach (var comment in comments)
                 {
                     <div class="card-body">
-                        <p class="card-text">@comment.Content</p>
-                        <p class="card-text">@comment.Author</p>
-                        <a href="#" class="btn btn-primary">See comment</a>
+                        <p class="card-text">Author: @comment.Author</p>
+                        <p class="card-text">Comment: @comment.Content</p>
+                        <p class="card-text">Posted on: @comment.Date</p>
+                        <p class="card-text">Upvotes: @comment.Upvotes</p>
+                        <p class="card-text">Downvotes: @comment.Downvotes</p>
+                        <button class="btn btn-primary" @onclick="() =>Upvote(comment.CommentId)">Upvote</button>
+                        <button class="btn btn-primary" @onclick="() =>Downvote(comment.CommentId)">Downvote</button>
+                        
+                        
                     </div>
 
                 }
@@ -42,17 +49,36 @@ else
             </div>
         </div>
 
+        
 
     }
 
     @code {
-        [Parameter]
-        public int id { get; set; }
 
-private Post posts;
+        private Comment[] comments;
+        
+        [Parameter]
+        public string Id { get; set; }
+        public int PostId { get { return int.Parse(Id); } }
+
+        private Post Post { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        posts = await postService.GetPostById(id);
+        Post = await postService.GetPostById(PostId);
+        comments = await postService.GetCommentById(PostId);
     }
+     public void Upvote(int id)
+    {
+        postService.UpvoteComment(id);
     }
+
+    public void Downvote(int id)
+    {
+        postService.DownvoteComment(id);
+    }
+}
+
+  
+
+ 

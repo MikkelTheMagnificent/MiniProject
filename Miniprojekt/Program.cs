@@ -68,9 +68,9 @@ app.MapGet("/api/posts/{id}", (DataService service, int id) => {
 });
 
 //Poster en ny post (virker)
-app.MapPost("/api/post/", (DataService service, string title, string content, string author) =>
+app.MapPost("/api/post/", (DataService service, InputPost post) =>
 {
-    service.CreatePost(title, content, author);
+    service.CreatePost(post);
 
 });
 
@@ -89,13 +89,31 @@ app.MapGet("/api/comments/{id}", (DataService service, int id) =>
 });
 
 //Poster ny comment (virker)
-app.MapPost("/api/comment/", (DataService service, string content, string author, int postId) =>
+app.MapPost("/api/comment/", (DataService service, InputComment comment) =>
 {   
-    service.CreateComment(content, author, postId);
+    service.CreateComment(comment);
 
 });
 
+app.MapPut("/api/upvote/post/{id}", (DataService service, int id) =>
+{
+    service.UpvotePost(id);
+});
 
+app.MapPut("/api/downvote/post/{id}", (DataService service, int id) =>
+{
+    service.DownvotePost(id);
+});
+
+app.MapPut("/api/upvote/comment/{id}", (DataService service, int id) =>
+{
+    service.UpvoteComment(id);
+});
+
+app.MapPut("/api/downvote/comment/{id}", (DataService service, int id) =>
+{
+    service.DownvoteComment(id);
+});
 
 app.Run();
 

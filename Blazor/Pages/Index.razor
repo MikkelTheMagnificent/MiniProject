@@ -16,20 +16,22 @@
 }
 else
 {
-
-    <a href="/CreatePost" class="btn btn-primary">Create Post</a>
-    @foreach (var post in posts)
+    @foreach (var item in posts)
     {
 
         <div class="card">
             <div class="card-header">
-                <p class="card-text">-- @post.Author </p>
+                <p>Title: <a href="/api/posts/@item.PostId" class="card-text"> @item.Title </a></p>
             </div>
             <div class="card-body">
-                <h5 class="card-title">@post.Title</h5>
-                <p class="card-text">@post.Content</p>
+                <h5 class="card-text">Author: @item.Author</h5>
+                <p class="card-text">Content: @item.Content</p>
+                <p class="card-text">Upvotes: @item.Upvotes</p>
+                <p class="card-text">Downvotes: @item.Downvotes</p>
+                <button class="btn btn-primary" @onclick="() =>Upvote(item.PostId)">Upvote</button>
+                <button class="btn btn-primary" @onclick="() =>Downvote(item.PostId)">Downvote</button>
 
-                <a href=@string.Format("{0}",post.PostId) class="btn btn-primary">See Post</a>
+            
             </div>
         </div>
     }
@@ -41,5 +43,16 @@ else
     protected override async Task OnInitializedAsync()
     {
         posts = await postService.GetPostData();
+    }
+
+
+    public void Upvote(int id)
+    {
+        postService.UpvotePost(id);
+    }
+
+    public void Downvote(int id)
+    {
+        postService.DownvotePost(id);
     }
 }
