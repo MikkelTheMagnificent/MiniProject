@@ -33,7 +33,7 @@ public class ApiService
     }
 
 
-    public async void CreatePost(Post post)
+    public async void CreatePost(InputPost post)
     {
         string url = $"{baseAPI}/api/post/";
         await http.PostAsJsonAsync(url, post);

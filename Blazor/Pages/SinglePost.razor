@@ -49,6 +49,17 @@ else
             </div>
         </div>
 
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping"></span>
+        <input type="text" class="form-control" @bind-value="@inputComment.Author" placeholder="Author" aria-label="Author" aria-describedby="addon-wrapping">
+        </div>
+    <div class="form-floating">
+        <input class="form-control" @bind-value="@inputComment.Content" placeholder="Content" id="floatingTextarea2" style="height: 100px"></input>
+        <label for="floatingTextarea2">Content</label>
+    </div>
+    
+    <a href="/api/posts/{id}" @onclick="() => CreateNewComment(inputComment)" class="btn btn-primary">Post comment</a>
+
         
 
     }
@@ -56,7 +67,7 @@ else
     @code {
 
         private Comment[] comments;
-        
+        private InputComment inputComment  = new InputComment ();
         [Parameter]
         public string Id { get; set; }
         public int PostId { get { return int.Parse(Id); } }
@@ -67,6 +78,10 @@ else
     {
         Post = await postService.GetPostById(PostId);
         comments = await postService.GetCommentById(PostId);
+    }
+
+    private async Task CreateNewComment(InputComment comment){
+        postService.CreateComment(comment);
     }
      public void Upvote(int id)
     {

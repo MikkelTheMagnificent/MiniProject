@@ -64,14 +64,14 @@ public class DataService
 
     ///Create post og comment
 
-  public void CreatePost(Post post){
+  public void CreatePost(InputPost post){
             db.posts.Add(new Post{Title = post.Title, Content = post.Content, Author = post.Author, Date = DateTime.Now, Upvotes = 0, Downvotes = 0,});
             db.SaveChanges();
            
         }
 
 
-    public void CreateComment(Comment comment) {
+    public void CreateComment(InputComment comment) {
         db.Comments.Add(new Comment { Content = comment.Content, Date = DateTime.Now, Author = comment.Author, Upvotes = 0, Downvotes = 0, PostId = comment.PostId });
         db.SaveChanges();
     }
