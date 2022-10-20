@@ -14,9 +14,8 @@
 <h6>Notes about this app:</h6>
 <ul>
     <li>You need to reload browser to reload data.</li>
-    <li>You can see each post by clicking the post title</li>
-    <li>You can create comments in the buttom of each post</li>
-    <li>You can write a comment on each individual post</li>
+    <li>You can create comments in the buttom of each individual post</li>
+   
 </ul>
 
 @if (posts == null)
@@ -30,7 +29,7 @@ else
 
         <div class="card">
             <div class="card-header">
-                <h5><b>Title: </b><a href="/api/posts/@item.PostId" class="card-title"> @item.Title </a></h5>
+                <h5><b>Title: </b><b class="card-title"> @item.Title </b></h5>
             </div>
             <div class="card-body">
                 <p class="card-text"><b>Author: </b>@item.Author</p>
@@ -39,7 +38,7 @@ else
                 <p class="card-text"><b>Downvotes: </b>@item.Downvotes</p>
                 <button class="btn btn-primary" @onclick="() =>Upvote(item.PostId)">Upvote</button>
                 <button class="btn btn-primary" @onclick="() =>Downvote(item.PostId)">Downvote</button>
-
+                <a href="/api/posts/@item.PostId"> <button class="btn btn-primary"> See post </button</a>
             
             </div>
         </div>
