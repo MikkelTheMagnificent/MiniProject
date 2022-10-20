@@ -9,7 +9,6 @@
 @inject ApiService postService
 
 
-<PageTitle>Post</PageTitle>
 
 @if (Post == null)
 {
@@ -17,27 +16,28 @@
 }
 else
 {
-        <div class="card w-75">
+        <div class="card w-200">
             <div class="card-body">
-                <h5 class="card-title">@Post.Title</h5>
-                <p>Posted on: @Post.Date</p>
-                <p class="card-text">Content: @Post.Content</p>
-                <p class="card-text">Upvotes: @Post.Upvotes   Downvotes: @Post.Downvotes</p> 
+                <h5 class="card-title"><b>@Post.Title</b></h5>
+                <p class="card-text"><b>Author: </b>@Post.Author</p>
+                <p><b>Posted on: </b> @Post.Date</p>
+                <p class="card-text"><b>Content: </b>@Post.Content</p>
+                <p class="card-text"><b>Upvotes: </b> @Post.Upvotes   Downvotes: @Post.Downvotes</p> 
                
             </div>
         </div>
 
-        <div class="card w-75">
+        <div class="card w-200">
             <div class="card-body">
                 <h5 class="card-title">Comments</h5>
                 @foreach (var comment in comments)
                 {
                     <div class="card-body">
-                        <p class="card-text">Author: @comment.Author</p>
-                        <p class="card-text">Comment: @comment.Content</p>
-                        <p class="card-text">Posted on: @comment.Date</p>
-                        <p class="card-text">Upvotes: @comment.Upvotes</p>
-                        <p class="card-text">Downvotes: @comment.Downvotes</p>
+                        <p class="card-text"><b>Author:</b> @comment.Author</p>
+                        <p class="card-text"><b>Comment:</b> @comment.Content</p>
+                        <p class="card-text"><b>Posted on:</b> @comment.Date</p>
+                        <p class="card-text"><b>Upvotes:</b> @comment.Upvotes</p>
+                        <p class="card-text"><b>Downvotes: </b> @comment.Downvotes</p>
                         <button class="btn btn-primary" @onclick="() =>Upvote(comment.CommentId)">Upvote</button>
                         <button class="btn btn-primary" @onclick="() =>Downvote(comment.CommentId)">Downvote</button>
                         
@@ -49,18 +49,9 @@ else
             </div>
         </div>
 
-    <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping"></span>
-        <input type="text" class="form-control" @bind-value="@inputComment.Author" placeholder="Author" aria-label="Author" aria-describedby="addon-wrapping">
-        </div>
-    <div class="form-floating">
-        <input class="form-control" @bind-value="@inputComment.Content" placeholder="Content" id="floatingTextarea2" style="height: 100px"></input>
-        <label for="floatingTextarea2">Content</label>
-    </div>
-    
-    <a href="/api/posts/{id}" @onclick="() => CreateNewComment(inputComment)" class="btn btn-primary">Post comment</a>
+        <h2>Create a comment</h2>
 
-        
+         <CreateComment PostId=@PostId></CreateComment>
 
     }
 

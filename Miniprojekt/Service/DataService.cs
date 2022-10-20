@@ -22,8 +22,8 @@ public class DataService
         if (post == null) {
             post = new Post { Title = "I'm addicted to WOW", Content = "i cant STOP, IM FUCKING ADDICTED", Author = "Tyler1", Date = DateTime.Now, Upvotes = 0, Downvotes = 0 };
             db.posts.Add(post);
-            db.posts.Add(new Post { Title = "BIG DICK ENERGY", Content = "Mit nye Arcane spec rykker røvhul", Author = "Olcastnblast", Date = DateTime.Now, Upvotes = 0, Downvotes = 0 });
-            db.posts.Add(new Post { Title = "DK's er den mest broken class in wow history", Content = "Jeg kommer til at skade mere end Consolelog i raids", Author = "Olcastnblast", Date = DateTime.Now, Upvotes = 0, Downvotes = 0 });
+            db.posts.Add(new Post { Title = "BIG D ENERGY", Content = "Mit nye Arcane spec er insane", Author = "Olcastnblast", Date = DateTime.Now, Upvotes = 0, Downvotes = 0 });
+            db.posts.Add(new Post { Title = "Mages will prevail", Content = "Jeg er den bedste mage EU", Author = "Olcastnblast", Date = DateTime.Now, Upvotes = 0, Downvotes = 0 });
         db.SaveChanges();
         }
         

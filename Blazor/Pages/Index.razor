@@ -9,6 +9,15 @@
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 
+<h2><b>All posts</b></h2>
+<h5>Welcome to PostIT</h5>
+<h6>Notes about this app:</h6>
+<ul>
+    <li>You need to reload browser to reload data.</li>
+    <li>You can see each post by clicking the post title</li>
+    <li>You can create comments in the buttom of each post</li>
+    <li>You can write a comment on each individual post</li>
+</ul>
 
 @if (posts == null)
 {
@@ -21,13 +30,13 @@ else
 
         <div class="card">
             <div class="card-header">
-                <p>Title: <a href="/api/posts/@item.PostId" class="card-title"> @item.Title </a></p>
+                <h5><b>Title: </b><a href="/api/posts/@item.PostId" class="card-title"> @item.Title </a></h5>
             </div>
             <div class="card-body">
-                <h5 class="card-text">Author: @item.Author</h5>
-                <p class="card-text">Content: @item.Content</p>
-                <p class="card-text">Upvotes: @item.Upvotes</p>
-                <p class="card-text">Downvotes: @item.Downvotes</p>
+                <p class="card-text"><b>Author: </b>@item.Author</p>
+                <p class="card-text"><b>Content: </b>@item.Content</p>
+                <p class="card-text"><b>Upvotes: </b>@item.Upvotes</p>
+                <p class="card-text"><b>Downvotes: </b>@item.Downvotes</p>
                 <button class="btn btn-primary" @onclick="() =>Upvote(item.PostId)">Upvote</button>
                 <button class="btn btn-primary" @onclick="() =>Downvote(item.PostId)">Downvote</button>
 

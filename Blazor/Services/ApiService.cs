@@ -46,8 +46,6 @@ public class ApiService
     }
 
 
-
-//skal laves om
   public async void CreateComment(InputComment comment)
     {
         string url = $"{baseAPI}/api/comment/";

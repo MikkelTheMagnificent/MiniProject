@@ -5,14 +5,16 @@
 
 @using shared.Model;
 
+<h2>Here you can create new content by making a new post! :D</h2>
+<h6>Remember to reload page when posting new content</h6>
 
 
 <div class="input-group flex-nowrap">
     <span class="input-group-text" id="addon-wrapping"></span>
     <input type="text" class="form-control" @bind-value="@inputPost.Author" placeholder="Author" aria-label="Author" aria-describedby="addon-wrapping">
 </div>
-<div class="input-group input-group-lg">
-    <span class="input-group-text" id="inputGroup-sizing-lg"><Title></Title></span>
+<div class="input-group flex-nowrap">
+    <span class="input-group-text" id="addon-wrapping"><Title></Title></span>
     <input type="text" @bind-value="@inputPost.Title" placeholder= "Title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
 </div>
 <div class="form-floating">
